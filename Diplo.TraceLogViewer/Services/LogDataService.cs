@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Diplo.TraceLogViewer.Models;
 
@@ -197,6 +198,19 @@ namespace Diplo.TraceLogViewer.Services
             };
 
             return logDataItem;
+        }
+
+        /// <summary>
+        /// Gets the time and date, as ticks, when the file was last modified
+        /// </summary>
+        /// <param name="fileName">The filename to check</param>
+        /// <returns>The number of ticks</returns>
+        public long GetLastModifiedTicks(string fileName)
+        {
+            string logFilePath = Path.Combine(LogFileService.BaseLogPath, fileName);
+
+            System.IO.FileInfo fi = new FileInfo(logFilePath);
+            return fi.LastWriteTimeUtc.Ticks;
         }
     }
 
